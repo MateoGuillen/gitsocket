@@ -6,6 +6,8 @@ import java.net.*;
 
 import py.una.entidad.Hospital;
 import py.una.entidad.HospitalJSON;
+import py.una.entidad.Cama;
+import py.una.entidad.CamaJSON;
 
 class UDPClient {
 
@@ -43,14 +45,54 @@ class UDPClient {
             }
             */
             
-            System.out.print("Ingrese el nombre del Hospital a Registrar en la BD: ");
-            String nombre = inFromUser.readLine();
+            System.out.println("Ingrese el id del hospital: ");
+            long id_hospital = Long.parseLong(inFromUser.readLine());
+            System.out.println("Ver el estado actual de todos los hospitales: 1");
+            System.out.println("Crear Cama UTI: 2");
+            System.out.println("Eliminar Cama UTI: 3");
+            System.out.println("Ocupar Cama UTI: 4");
+            System.out.println("Desocupar Cama UTI: 5");
+            System.out.println("Ingrese una operacion: ");
+            int operacion= Integer.parseInt(inFromUser.readLine());
+            String datoPaquete = new String();
+            switch (operacion) {
+                case 1:
+                    Cama c = new Cama(id_hospital,operacion);
+                    datoPaquete=CamaJSON.objetoString(c); 
+                   break;
+                case 2:
+                    Cama c2 = new Cama(id_hospital,operacion);
+                    datoPaquete=CamaJSON.objetoString(c2);                    
+                    break;
+                case 3:
+                    System.out.println("Ingrese el id de la cama que quiere eliminar: ");
+                    long id_cama = Long.parseLong(inFromUser.readLine());
+                    Cama c3=new Cama(id_hospital,id_cama,operacion);
+                    datoPaquete=CamaJSON.objetoString(c3);
+                    break;
+                case 4:
+                    System.out.println("Ingrese el id de la cama que quiere ocupar: ");
+                    long id_cama2 = Long.parseLong(inFromUser.readLine());
+                    Cama c4 = new Cama(id_hospital,id_cama2,"ocupada",operacion);
+                    datoPaquete=CamaJSON.objetoString(c4);
+                    break;
+                case 5:
+                    System.out.println("Ingrese el id de la cama que quiere desocupar: ");
+                     long id_cam3 = Long.parseLong(inFromUser.readLine());
+                     Cama c5 = new Cama(id_hospital,id_cam3,"desocupada",operacion);
+                     datoPaquete=CamaJSON.objetoString(c5);
+                    break;
+               default:
+                    //operacion indeterminada
+                   break;
+           }
+
             //System.out.print("Ingrese el apellido: ");
             //String apellido = inFromUser.readLine();
             
-            Hospital p = new Hospital(nombre);
             
-            String datoPaquete = HospitalJSON.objetoString(p); 
+            
+            
             sendData = datoPaquete.getBytes();
             System.out.println("Enviando los datos al servidor...");
             //System.out.println("Enviar " + datoPaquete + " al servidor. ("+ sendData.length + " bytes)");
@@ -72,14 +114,24 @@ class UDPClient {
                 clientSocket.receive(receivePacket);
 
                 String respuesta = new String(receivePacket.getData());
-                Hospital presp = HospitalJSON.stringObjeto(respuesta.trim());
+                Cama presp = CamaJSON.stringObjeto(respuesta.trim());
                 
                 InetAddress returnIPAddress = receivePacket.getAddress();
                 int port = receivePacket.getPort();
 
                 System.out.println("Respuesta desde =  " + returnIPAddress + ":" + port);
-                System.out.println("Estado: " + presp.getEstadoResponse() );
-                System.out.println("Mensaje: " + presp.getMensajeResponse() );
+                if(operacion==1){
+                    for(String tmp: presp.getDetalleCamas()) {
+                        System.out.println(" ==> " +tmp);
+                    }
+                    System.out.println("Estado: " + presp.getEstadoResponse() );
+                    System.out.println("Mensaje: " + presp.getMensajeResponse() );
+    
+                }else{
+                    System.out.println("Estado: " + presp.getEstadoResponse() );
+                    System.out.println("Mensaje: " + presp.getMensajeResponse() );
+                }
+                
 
                 //System.out.println("Asignaturas: ");
                 /*

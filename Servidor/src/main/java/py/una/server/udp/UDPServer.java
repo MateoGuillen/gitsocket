@@ -2,12 +2,15 @@ package py.una.server.udp;
 
 import java.io.*;
 import java.net.*;
+import java.util.List;
 
+import py.una.bd.CamaDAO;
 import py.una.bd.HospitalDAO;
+import py.una.entidad.CamaJSON;
 import py.una.entidad.Hospital;
 import py.una.entidad.HospitalJSON;
-import py.una.entidad.Hospital;
-import py.una.entidad.HospitalJSON;
+import py.una.entidad.Cama;
+import py.una.entidad.CamaJSON;
 
 public class UDPServer {
 	
@@ -16,7 +19,7 @@ public class UDPServer {
         
         // Variables
         int puertoServidor = 9876;
-        HospitalDAO pdao = new HospitalDAO();
+        CamaDAO cdao = new CamaDAO();
         
         try {
             //1) Creamos el socket Servidor de Datagramas (UDP)
@@ -50,16 +53,75 @@ public class UDPServer {
                 datoRecibido = datoRecibido.trim();
                 System.out.println("DatoRecibido ");
                 //System.out.println("DatoRecibido: " + datoRecibido );
-                Hospital h = HospitalJSON.stringObjeto(datoRecibido);
+                //Hospital h = HospitalJSON.stringObjeto(datoRecibido);
+                Cama c = CamaJSON.stringObjeto(datoRecibido);
 
                 InetAddress IPAddress = receivePacket.getAddress();
 
                 int port = receivePacket.getPort();
 
                 System.out.println("De : " + IPAddress + ":" + port);
-                System.out.println("Hospital Recibido : " + h.getNombre());
+                System.out.println("Operacion Recibida : " + c.getOperacion());
                 
-                try {
+                String ok="ok";
+                String auxmensaje=new String();
+               switch ((int)c.getOperacion()) {
+                    case 1:
+                        List<Cama> lista = cdao.ver_estado();
+                        for (Cama caux : lista) {
+                            String detalle="HospitalX" + caux.getIdHospital() + " - " + "Cama" + caux.getIdCama() + " : " + caux.getEstado();
+                            c.getDetalleCamas().add(detalle);
+                        }
+                        c.setMensajeResponse(ok);
+                        c.setEstadoResponse(0);
+                       break;
+                    case 2:
+                        auxmensaje=cdao.crearCama(c);
+                        if(auxmensaje.equals(ok)){
+                            c.setMensajeResponse(ok);
+                            c.setEstadoResponse(0);
+                        }else{
+                            c.setMensajeResponse(auxmensaje);
+                            c.setEstadoResponse(2);
+                        };
+                        break;
+                    case 3:
+                        auxmensaje=cdao.eliminarCama(c.getIdCama());
+                        if(auxmensaje.equals(ok)){
+                            c.setMensajeResponse(ok);
+                            c.setEstadoResponse(0);
+                        }else{
+                            c.setMensajeResponse(auxmensaje);
+                            c.setEstadoResponse(2);
+                        };
+                        break;
+                    case 4:
+                        auxmensaje=cdao.ocupacion(c);
+                        if(auxmensaje.equals(ok)){
+                            c.setMensajeResponse(ok);
+                            c.setEstadoResponse(0);
+                        }else{
+                            c.setMensajeResponse(auxmensaje);
+                            c.setEstadoResponse(2);
+                        };
+                        break;
+                    case 5:
+                        auxmensaje=cdao.ocupacion(c);
+                        if(auxmensaje.equals(ok)){
+                            c.setMensajeResponse(ok);
+                            c.setEstadoResponse(0);
+                        }else{
+                            c.setMensajeResponse(auxmensaje);
+                            c.setEstadoResponse(2);
+                        };
+                        break;
+                            
+                   default:
+                        c.setMensajeResponse("Transaccion Indeterminada");
+                        c.setEstadoResponse(-1);
+                       break;
+               }
+                /*try {
                 	pdao.insertar(h);
                 	System.out.println("Hospital insertado exitosamente en la Base de datos");
                     h.setEstadoResponse(1);// transaccion exitosa
@@ -69,7 +131,7 @@ public class UDPServer {
                     h.setEstadoResponse(2); // mayor a 1, ocurrio un error
                     h.setMensajeResponse(e.getLocalizedMessage());
                     
-                }
+                }*/
                
 
                 //TODO: POR HACER
@@ -95,7 +157,7 @@ public class UDPServer {
 
                 // Enviamos la respuesta inmediatamente a ese mismo cliente
                 // Es no bloqueante
-                sendData = HospitalJSON.objetoString(h).getBytes();
+                sendData = CamaJSON.objetoString(c).getBytes();
                 DatagramPacket sendPacket =
                         new DatagramPacket(sendData, sendData.length, IPAddress,port);
 
