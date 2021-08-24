@@ -17,9 +17,6 @@ SET row_security = off;
 
 SET SESSION AUTHORIZATION 'postgres';
 
--- Create a new database called 'bd_'
-CREATE DATABASE bd_hospital;
-
 --
 -- TOC entry 3007 (class 0 OID 0)
 -- Dependencies: 3006
