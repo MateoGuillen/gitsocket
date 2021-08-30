@@ -218,5 +218,45 @@ public class HospitalDAO {
         return id;
     }
     
+    
+    
+    //nuevo....
+    public List<Hospital> seleccionar_todos() {
+        String query = "SELECT * FROM public.hospital";
+
+		List<Hospital> lista = new ArrayList<Hospital>();
+		
+		Connection conn = null; 
+        try 
+        {
+            //conectamos a la bd
+        	conn = Bd.connect();
+        	PreparedStatement pstmt = conn.prepareStatement(query);
+        	//pstmt.setLong(1, id_hospital);
+        	
+        	ResultSet rs = pstmt.executeQuery();
+
+        	while(rs.next()) {
+        		Hospital p = new Hospital();
+        		p.setIdHospital(rs.getInt(1));
+        		p.setNombre(rs.getString(2));
+
+        		lista.add(p);
+        	}
+        	
+        } catch (SQLException ex) {
+            System.out.println("Error en la seleccion: " + ex.getMessage());
+        }
+        finally  {
+        	try{
+        		conn.close();
+        	}catch(Exception ef){
+        		System.out.println("No se pudo cerrar la conexion a BD: "+ ef.getMessage());
+        	}
+        }
+		return lista;
+
+	}
+    
 
 }
