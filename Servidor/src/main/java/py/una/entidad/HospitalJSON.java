@@ -27,18 +27,31 @@ public class HospitalJSON {
     	System.out.println("\nEjemplo de uso 2: pasar de string a objeto");
     	String un_string = "{\"id_hospital\":2,\"nombre\":\"HospitalTest2\",\"estadoResponse\":2,\"mensajeResponse\":\"Ocurrio un ERROR\"}";
     	
-    	Hospital r2 = representacion.stringObjeto(un_string);
+    	Hospital r2 = representacion.stringObjeto(r1);
     	System.out.println(r2.id_hospital + " " +r2.nombre + " " + r2.estadoResponse + " " + r2.mensajeResponse);
     }
     
     public static String objetoString(Hospital h) {	
     	
 		JSONObject obj = new JSONObject();
+		obj.put("tipo_objeto", h.get_tipo_objeto());
         obj.put("id_hospital", h.getIdHospital());
         obj.put("nombre", h.getNombre());
         obj.put("estadoResponse", h.getEstadoResponse());
         obj.put("mensajeResponse", h.getMensajeResponse());
 
+        
+
+        JSONArray list = new JSONArray();
+        
+        for(String temp: h.getDetalleHospitales()){
+        	list.add(temp);
+        }
+       
+        obj.put("hospitales", list);
+        
+
+        
         return obj.toJSONString();
     }
     
@@ -55,6 +68,19 @@ public class HospitalJSON {
         h.setNombre((String) jsonObject.get("nombre"));
         h.setEstadoResponse((long) jsonObject.get("estadoResponse"));
         h.setMensajeResponse((String) jsonObject.get("mensajeResponse"));
+        
+        try {
+	        
+        	JSONArray msg = (JSONArray) jsonObject.get("hospitales");
+	        Iterator<String> iterator = msg.iterator();
+	        while (iterator.hasNext()) {
+	        	h.getDetalleHospitales().add(iterator.next());
+	        }
+	        
+        }catch(Exception e) {
+        	
+        }
+
         return h;
 	}
 

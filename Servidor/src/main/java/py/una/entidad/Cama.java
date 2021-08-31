@@ -10,6 +10,8 @@ public class Cama {
 	long id_cama; //PK en la bd
 	long id_hospital; //FK en la bd
 	String estado; //ocupada o desocupada se guarda en la bd, desocupada por default
+	
+	String tipo_objeto = "cama";
 
 	//ESTO SE USA PARA RESPONDER AL CLIENTE
 	long estadoResponse; 	// 1   ,  		0 , 			2
@@ -55,6 +57,8 @@ public class Cama {
 		this.estado=estado;
 		this.operacion = operacion;
 	}
+	
+
 
 
 	//getters y settters
@@ -115,4 +119,8 @@ public class Cama {
 		this.camas = camas;
 	}
 
+	
+	public String get_tipo_objeto() {
+		return this.tipo_objeto;
+	}
 }

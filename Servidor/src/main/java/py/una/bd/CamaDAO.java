@@ -68,10 +68,10 @@ public class CamaDAO {
 		return lista;
 
 	}
-	/*
+	
     // getCamaById : retorna una Cama por su ID
 	public List<Cama> seleccionarporID(long id_hospital) {
-        String query = "SELECT id_hospital, nombre FROM public.hospital WHERE id_hospital = ? ";
+        String query = "SELECT id_cama, estado, id_hospital FROM public.cama WHERE id_hospital = ? ";
 
 		List<Cama> lista = new ArrayList<Cama>();
 		
@@ -87,10 +87,11 @@ public class CamaDAO {
 
         	while(rs.next()) {
         		Cama p = new Cama();
-        		p.setIdHospital(rs.getInt(1));
-        		p.setNombre(rs.getString(2));
-
+        		p.setIdCama(rs.getInt(1));
+        		p.setEstado(rs.getString(2));
+        		p.setIdHospital(rs.getInt(3));
         		lista.add(p);
+        		
         	}
         	
         } catch (SQLException ex) {
@@ -106,7 +107,7 @@ public class CamaDAO {
 		return lista;
 
 	}
-    */
+    
 	
     // setHospital : agremos una Cama a la bd
     public String crearCama(Cama c) throws SQLException {

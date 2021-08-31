@@ -31,16 +31,19 @@ public class CamaJSON {
     	
     	System.out.println("\n*********************************************************a****************");
     	System.out.println("\nEjemplo de uso 2: pasar de string a objeto");
-    	String un_string = "{\"id_hospital\":2,\"id_cama\":2,\"estado\":\"desocupada\",\"estadoResponse\":1,\"mensajeResponse\":\"ok\",\"operacion\":3}";
+    	//String un_string = "{\"id_hospital\":2,\"id_cama\":2,\"estado\":\"desocupada\",\"estadoResponse\":1,\"mensajeResponse\":\"ok\",\"operacion\":3}";
+    	String un_string = "{\"camas\":[\"Algori\"],\"estado\":\"desocupada\",\"id_hospital\":1,\"estadoResponse\":1,\"mensajeResponse\":\"ok\",\"id_cama\":1,\"operacion\":2}";
     	
-    	Cama r2 = representacion.stringObjeto(un_string);
+    	
+    	Cama r2 = representacion.stringObjeto(r1);
     	System.out.println(r2.id_hospital + " " +r2.id_cama + " " +r2.estado + " " + r2.estadoResponse + " " + r2.mensajeResponse + " "+ r2.operacion);
     }
     
     public static String objetoString(Cama c) {	
     	
 		JSONObject obj = new JSONObject();
-        obj.put("id_hospital", c.getIdHospital());
+        obj.put("tipo_objeto", c.get_tipo_objeto());
+		obj.put("id_hospital", c.getIdHospital());
         obj.put("id_cama", c.getIdCama());
         obj.put("estado",c.getEstado());
         obj.put("estadoResponse", c.getEstadoResponse());
@@ -65,8 +68,8 @@ public class CamaJSON {
     
     public static Cama stringObjeto(String str) throws Exception {
     	Cama c = new Cama();
+    	
         JSONParser parser = new JSONParser();
-
         Object obj = parser.parse(str.trim());
         JSONObject jsonObject = (JSONObject) obj;
 

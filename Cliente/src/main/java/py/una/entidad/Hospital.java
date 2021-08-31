@@ -1,31 +1,46 @@
 package py.una.entidad;
-//import java.util.ArrayList;
-//import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
+import java.lang.*;
 
 public class Hospital {
 
 	//atributos de la clase
 	long id_hospital; 
 	String nombre;
+	
+	String tipo_objeto = "hospital";
 
 	//ESTO SE USA PARA RESPONDER AL CLIENTE
 	long estadoResponse;
 	String mensajeResponse;
+	List<String> hospitales;
 
 	//constructores
 	public Hospital(){
-		//
+		hospitales = new ArrayList<String>();
+
 	}
 	public Hospital(long hid_hospital, String hnombre){
 		this.id_hospital = hid_hospital;
 		this.nombre = hnombre;
-		
+		hospitales = new ArrayList<String>();
 		
 	}
 	public Hospital(String hnombre){
 		this.nombre = hnombre;
+		hospitales = new ArrayList<String>();
 	}
 	//getters y settters
+	
+
+	public List<String> getDetalleHospitales() {
+		return hospitales;
+	}
+
+	public void setDetalleHospitales(List<String> hospitales) {
+		this.hospitales = hospitales;
+	}
 
 	public long getIdHospital() {
 		return id_hospital;
@@ -57,6 +72,11 @@ public class Hospital {
 
 	public void setMensajeResponse(String mensajeResponse) {
 		this.mensajeResponse = mensajeResponse;
+	}
+
+	
+	public String get_tipo_objeto() {
+		return this.tipo_objeto;
 	}
 
 }

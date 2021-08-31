@@ -15,19 +15,19 @@ public class TestHospitalDAO {
 		HospitalDAO hdao = new HospitalDAO();
 		
 		
-		hdao.insertar(new Hospital("TestHospital6") );
-		hdao.insertar(new Hospital("TestHospital7") );
-		hdao.insertar(new Hospital("TestHospital8") );
-		hdao.insertar(new Hospital("TestHospital9") );
-		
-		
-		hdao.actualizar(new Hospital(7,"TestPut") );
-		
-		hdao.borrar(9);
-		
+//		hdao.insertar(new Hospital("TestHospital6") );
+//		hdao.insertar(new Hospital("TestHospital7") );
+//		hdao.insertar(new Hospital("TestHospital8") );
+//		hdao.insertar(new Hospital("TestHospital9") );
+//		
+//		
+//		hdao.actualizar(new Hospital(7,"TestPut") );
+//		
+//		hdao.borrar(9);
+//		
 		//List<Hospital> lista = hdao.seleccionarporID(1);
 		
-		List<Hospital> lista = hdao.seleccionar(); 
+		List<Hospital> lista = hdao.seleccionar_todos(); 
 		
 		
 		for (Hospital h: lista){

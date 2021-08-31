@@ -94,3 +94,19 @@ Cada interacción entre los intervinientes debe contener mínimamente los siguie
 
 
 Forma de entrega: Indicaciones en: https://www.educa.una.py/politecnica/mod/assign/view.php?id=274178 
+
+
+INSTALACION
+1. Clonar el repositorio en un directorio
+2. Crear una base de datos en pgadmin4 con el nombre bd_hospital, acceder a la herramienta queryTools y pegar allí el texto que esta en el archivo bd.sql y ejecutarlo. Luego verificar que las tablas hospital, cama y log se hayan creado.
+Obs.: la contraseña para acceder a la base de datos (en el codigo) es admin, si desea cambiarlo vaya a la carpeta Servidor/src/main/java/py/una/bd/Bd.java
+3. En eclipse, seleccionar la opcion File, Import, Existing Maven Project y buscar la carpeta que contiene el proyecto.
+4. Una vez ubicado el proyecto, fijarse que los dos archivos pom.xml (para Cliente y Servidor) esten seleccionados y aceptar. Se podran visualizarn dos carpetas, uno para Cliente y otro para Servidor. 
+
+USO
+5. Seleccionar la carpeta Servidor y dar click a la opcion Run UDPServer (icono circular verde, arriba a la izquierda). Se abrira una terminal, donde el servidor estara esperando por solicitudes.
+6. Seleccionar la carpeta Servidor y dar click a la opcion Run UDPClient (icono circular verde, arriba a la izquierda). SE abrira una terminal donde el cliente podra hacer solicitudes.
+Obs.: Aunque una terminal no pueda verse a causa de que una se puso frente a otra, esta sigue activa. Si se quiere pasar de una terminal a otra se debe dar click a Display Selected Console (segundo icono a la derecha (derecha a izquierda)).
+7. Una vez finalizado el uso, se puede dar fin al cliente y/o servidor dando click a Terminate (icono cuadrado rojo).
+8. Si se desea verificar todas las operaciones realizadas, se puede ingresar a pgadmin4, bd_hospital, tables donde se halla la tabla log y seleccionar la opcion view all rows.
+
