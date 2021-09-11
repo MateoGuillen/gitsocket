@@ -1,3 +1,5 @@
+//comentario
+//comentario de martin
 package py.una.cliente.udp;
 
 
@@ -18,6 +20,9 @@ class UDPClient {
 	public String request(String datoPaquete, String a[]) {
 	
         String direccionServidor = "127.0.0.1";
+
+				//Primer Parcial Matias Gonzalez
+				String cadenaMG = "Primer Parcial";
 
         if (a.length > 0) {
             direccionServidor = a[0];
