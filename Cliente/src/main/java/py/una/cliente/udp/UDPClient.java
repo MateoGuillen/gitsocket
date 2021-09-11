@@ -47,6 +47,7 @@ class UDPClient {
 	        DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 	
 	        System.out.println("Esperando respuesta...");
+			//HOLA MUNDO PARA EL PRIMER PARCIAL DE DISTRI
 	
 	        clientSocket.setSoTimeout(10000);
 	
